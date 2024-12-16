@@ -130,6 +130,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# openAI secret key
+secrets.json
+
 # Spyder project settings
 .spyderproject
 .spyproject
