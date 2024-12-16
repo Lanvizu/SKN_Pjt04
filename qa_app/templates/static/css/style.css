@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+nav a {
+    margin-right: 10px;
+}
+
+#chat-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#chat-messages {
+    border: 1px solid #ddd;
+    padding: 10px;
+    height: 400px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.user, .assistant {
+    margin-bottom: 10px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.user {
+    background-color: #e6f3ff;
+}
+
+.assistant {
+    background-color: #f0f0f0;
+}
+
+.sources {
+    font-size: 0.9em;
+    color: #666;
+    margin-top: 10px;
+}
