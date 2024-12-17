@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>검색 페이지</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <div class="login-button">로그인</div>
+    
+    <div class="search-container">
+        <h1>무엇을 알고 싶으세요?</h1>
+        <form id="searchForm">
+            <div class="search-box">
+                <input type="text" name="search_query" class="search-input" placeholder="무엇이든 물어보세요...">
+                <button type="submit" class="search-button">
+                    <span class="arrow-icon">➜</span>
+                </button>
+            </div>
+        </form>
+        <div class="pro-toggle">
+            <span>Pro</span>
+            <div class="toggle-switch"></div>
+        </div>
+    </div>
+
+    <!-- 로그인 모달 -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>로그인</h2>
+            <form id="loginForm">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="사용자 이름" required>
+                <input type="password" name="password" placeholder="비밀번호" required>
+                <button type="submit">로그인</button>
+            </form>
+            <button id="showSignupButton">회원가입</button>
+        </div>
+    </div>
+
+    <!-- 회원가입 모달 -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>회원가입</h2>
+            <form id="signupForm">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="사용자 이름" required>
+                <input type="password" name="password1" placeholder="비밀번호" required>
+                <input type="password" name="password2" placeholder="비밀번호 확인" required>
+                <button type="submit">가입하기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Q&A 채팅 모달 -->
+    <div class="modal" id="chatModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Q&A 채팅</h2>
+            <select id="model-select">
+                <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                <option value="gpt-4">GPT-4</option>
+            </select>
+            <div id="chat-container">
+                <div id="chat-messages"></div>
+                <input type="text" id="user-input" placeholder="질문을 입력하세요">
+                <button onclick="sendMessage()">전송</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
