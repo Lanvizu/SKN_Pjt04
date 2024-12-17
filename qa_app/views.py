@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import FileUploadForm
-from .utils import load_file, split_text, upload_data_if_not_exists, search_in_pinecone, generate_with_gpt, index, embedding_model
+from .utils import load_file, split_text, upload_data_if_not_exists, search_in_pinecone, generate_with_gpt, pinecine_index, embedding_model
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -13,7 +13,7 @@ def index(request):
             file_content = load_file(uploaded_file)
             split_texts = split_text(file_content)
             file_name = uploaded_file.name.split('.')[0]
-            upload_data_if_not_exists(split_texts, index, file_name)
+            upload_data_if_not_exists(split_texts, pinecine_index, file_name)
             return JsonResponse({'message': '파일이 성공적으로 처리되었습니다.'})
     else:
         form = FileUploadForm()
@@ -26,7 +26,7 @@ def chat(request):
         query = data.get('query')
         model = data.get('model', 'gpt-3.5-turbo')
         
-        search_results = search_in_pinecone(query, index, embedding_model)
+        search_results = search_in_pinecone(query, pinecine_index, embedding_model)
         
         if search_results:
             context = "\n".join([match.metadata['text'] for match in search_results.matches])

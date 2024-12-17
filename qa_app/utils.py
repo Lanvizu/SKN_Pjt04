@@ -35,7 +35,7 @@ if index_name not in pc.list_indexes().names():
         )
     )
 
-index = pc.Index(index_name)
+pinecine_index = pc.Index(index_name)
 
 def generate_with_gpt(prompt, model="gpt-3.5-turbo"):
     try:
