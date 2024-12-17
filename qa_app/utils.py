@@ -132,3 +132,19 @@ def search_in_pinecone(query, index, embedding_model, top_k=3):
     except Exception as e:
         print(f"검색 중 오류 발생: {e}")
         return None
+
+def process_search_results(search_results, prompt):
+    if search_results and search_results['matches']:
+        # 검색 결과 중 점수가 가장 높은 항목 가져오기
+        best_match = max(search_results['matches'], key=lambda match: match['score'])
+
+        if best_match['score'] < 0.85:
+            # print(best_match['score'])
+            return "관련 내용이 없습니다. 관련 파일을 업로드 후 다시 질문해주세요."
+        else:
+            # 검색된 텍스트를 결합하여 GPT에게 전달할 프롬프트
+            context = "\n".join([match['metadata']['text'] for match in search_results['matches'] if match['score'] >= 0.8])
+            gpt_prompt = f"다음 내용을 바탕으로 사용자의 질문에 답해주세요: {prompt}\n\n{context}"
+            return generate_with_gpt(gpt_prompt)
+    else:
+        return "검색 결과가 없습니다."

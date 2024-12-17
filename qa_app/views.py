@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from .forms import FileUploadForm
-from .utils import load_file, split_text, upload_data_if_not_exists, search_in_pinecone, generate_with_gpt, pinecine_index, embedding_model
+from .utils import load_file, split_text, upload_data_if_not_exists, search_in_pinecone, generate_with_gpt, pinecine_index, embedding_model, process_search_results
 from django.views.decorators.csrf import csrf_exempt
 import json
 
@@ -29,19 +29,20 @@ def chat(request):
         search_results = search_in_pinecone(query, pinecine_index, embedding_model)
         
         if search_results:
-            context = "\n".join([match.metadata['text'] for match in search_results.matches])
-            gpt_prompt = f"다음 내용을 바탕으로 사용자의 질문에 답해주세요: {query}\n\n{context}"
-            response_gpt = generate_with_gpt(gpt_prompt, model=model)
+            response_gpt = process_search_results(search_results, query)
             
-            return JsonResponse({
-                'answer': response_gpt,
-                'sources': [
-                    {
-                        'text': match.metadata.get('text', '')[:400],
-                        'source': match.metadata.get('source', '알 수 없음').split('_')[1]
-                    } for match in search_results.matches[:3]
-                ]
-            })
+            if response_gpt == "관련 내용이 없습니다. 관련 파일을 업로드 후 다시 질문해주세요.":
+                return JsonResponse({'answer': response_gpt})
+            else:
+                return JsonResponse({
+                    'answer': response_gpt,
+                    'sources': [
+                        {
+                            'text': match['metadata'].get('text', '')[:400],
+                            'source': match['metadata'].get('source', '알 수 없음').split('_')[1]
+                        } for match in search_results['matches'] if match['score'] >= 0.8
+                    ]
+                })
         else:
             return JsonResponse({'answer': '검색 결과가 없습니다.'})
     
