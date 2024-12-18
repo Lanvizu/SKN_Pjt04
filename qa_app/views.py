@@ -5,7 +5,10 @@ from .utils import load_file, split_text, upload_data_if_not_exists, search_in_p
 from django.views.decorators.csrf import csrf_exempt
 import json
 
-def index(request):
+def home(request):
+    return render(request, 'base.html')
+
+def upload(request):
     if request.method == 'POST':
         form = FileUploadForm(request.POST, request.FILES)
         if form.is_valid():
@@ -15,9 +18,15 @@ def index(request):
             file_name = uploaded_file.name.split('.')[0]
             upload_data_if_not_exists(split_texts, pinecine_index, file_name)
             return JsonResponse({'message': '파일이 성공적으로 처리되었습니다.'})
+        else:
+            return JsonResponse({'message': '파일 업로드에 실패했습니다.'}, status=400)
     else:
         form = FileUploadForm()
-    return render(request, 'qa_app/index.html', {'form': form})
+    return render(request, '', {'form': form})
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 @csrf_exempt
 def chat(request):
@@ -46,4 +55,5 @@ def chat(request):
         else:
             return JsonResponse({'answer': '검색 결과가 없습니다.'})
     
-    return render(request, 'qa_app/chat.html')
+    return JsonResponse({'error': 'Invalid request method'}, status=405)
+

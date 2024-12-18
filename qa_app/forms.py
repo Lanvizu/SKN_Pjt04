@@ -1,5 +1,7 @@
 from django import forms
+from .models import UploadedFile
 
-class FileUploadForm(forms.Form):
-    file = forms.FileField()
-    model_choice = forms.ChoiceField(choices=[('gpt-3.5-turbo', 'GPT-3.5 Turbo'), ('gpt-4', 'GPT-4')])
+class FileUploadForm(forms.ModelForm):
+    class Meta:
+        model = UploadedFile
+        fields = ['file']
