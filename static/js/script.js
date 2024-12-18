@@ -115,15 +115,19 @@ function sendMessage() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+            'X-CSRFToken': getCookie('csrftoken')
         },
         body: JSON.stringify({query: userInput, model: model})
     })
     .then(response => response.json())
     .then(data => {
-        addMessage('assistant', data.answer);
-        if (data.sources) {
-            addSources(data.sources);
+        if (data.error) {
+            addMessage('system', data.error);
+        } else {
+            addMessage('assistant', data.answer);
+            if (data.sources) {
+                addSources(data.sources);
+            }
         }
     })
     .catch(error => {
@@ -134,30 +138,79 @@ function sendMessage() {
     document.getElementById('user-input').value = '';
 }
 
+
+
 function addMessage(role, content) {
+    var chatMessages = document.getElementById('chat-messages');
     var messageDiv = document.createElement('div');
-    messageDiv.className = role;
+    messageDiv.className = 'message ' + role;
     messageDiv.textContent = content;
-    document.getElementById('chat-messages').appendChild(messageDiv);
+    chatMessages.appendChild(messageDiv);
 
     // 스크롤을 최신 메시지로 이동
-    var chatContainer = document.getElementById('chat-messages');
-    chatContainer.scrollTop = chatContainer.scrollHeight;
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+
 function addSources(sources) {
+    var chatMessages = document.getElementById('chat-messages');
     var sourcesDiv = document.createElement('div');
     sourcesDiv.className = 'sources';
     sourcesDiv.innerHTML = '<h4>참고한 페이지:</h4>';
     sources.forEach((source, index) => {
         sourcesDiv.innerHTML += `<p><strong>출처 ${index + 1}:</strong> ${source.source}<br>${source.text}...</p>`;
     });
-    document.getElementById('chat-messages').appendChild(sourcesDiv);
+    chatMessages.appendChild(sourcesDiv);
+
+    // 스크롤을 최신 메시지로 이동
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
+
 
 // 윈도우 클릭 이벤트 (모달 외부 클릭 시 닫기)
 window.onclick = function(event) {
     if (event.target.className === 'modal') {
         event.target.style.display = "none";
     }
+}
+
+// 파일 업로드 처리
+document.getElementById('fileInput').addEventListener('change', function(e) {
+    var formData = new FormData();
+    formData.append('file', this.files[0]);
+    
+    // 업로드 진행 상태를 표시
+    document.getElementById('uploadMessage').textContent = '파일 업로드 중...';
+    
+    fetch('/upload/', {  // '/upload/'는 서버의 업로드 URL로 변경해야 합니다
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': getCookie('csrftoken')
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('uploadMessage').textContent = data.message;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('uploadMessage').textContent = '파일 업로드 중 오류가 발생했습니다.';
+    });
+});
+
+// CSRF 토큰을 쿠키에서 가져오는 함수
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
