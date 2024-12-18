@@ -22,17 +22,18 @@
     <!-- Responsive navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container px-lg-5">
-            <a class="navbar-brand" href="#!">Start Bootstrap</a>
+            <a class="navbar-brand" href="">Search PDF</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" id="openUploadModal">Upload</a></li>
-                    <li class="nav-item"><a class="nav-link login-button">Login</a></li>
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="">홈</a></li>
+                    <li class="nav-item"><a class="nav-link" id="openUploadModal">업로드</a></li>
+                    <li class="nav-item"><a class="nav-link login-button">로그인</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
     <!-- Header-->
     <header class="py-5">
         <div class="container px-lg-5">
@@ -40,7 +41,7 @@
                 <div class="m-4 m-lg-5">
                     <h1 class="display-5 fw-bold">무엇을 알고 싶으세요?</h1>
                     <br>
-                    <p class="fs-4">원하는 파일을 업로드 후 질문을 진행해보세요</p><br>
+                    <p class="fs-4">원하는 파일을 업로드 후 질문을 시작해보세요</p><br>
                     <form id="searchForm">
                         <div class="search-box">
                             <input type="text" name="search_query" class="search-input" placeholder="무엇이든 물어보세요...">
@@ -54,27 +55,6 @@
         </div>
     </header>
 
-
-    <!-- <div class="login-button">로그인</div>
-    <div class="upload-button" id="openUploadModal">문서 업로드</div>
-    
-    <div class="search-container">
-        <h1>무엇을 알고 싶으세요?</h1>
-        <form id="searchForm">
-            <div class="search-box">
-                <input type="text" name="search_query" class="search-input" placeholder="무엇이든 물어보세요...">
-                <button type="submit" class="search-button">
-                    <span class="arrow-icon">➜</span>
-                </button>
-            </div>
-        </form>
-        <div class="pro-toggle">
-            <span>Pro</span>
-            <div class="toggle-switch"></div>
-        </div>
-    </div> -->
-
-    <!-- 모달 구조 추가 -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -82,7 +62,11 @@
                 <h2>문서 업로드</h2>
                 <form id="uploadForm" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="file" name="file" id="fileInput" required>
+                    <div class="filebox">
+                        <input class="upload-name" value="선택된 파일 없음" disabled>
+                        <label for="fileInput">파일 선택</label>
+                        <input type="file" id="fileInput" name="file" required>
+                    </div>
                 </form>
                 <div id="uploadMessage"></div>
             </div>

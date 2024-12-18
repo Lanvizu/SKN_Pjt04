@@ -190,10 +190,10 @@ document.addEventListener('DOMContentLoaded', function () {
         toggleButton.addEventListener('click', function () {
             if (sourcesContent.style.display === 'none') {
                 sourcesContent.style.display = 'block'; // 펼치기
-                toggleButton.textContent = '참고한 페이지 닫기';
+                toggleButton.textContent = '참고한 페이지';
             } else {
                 sourcesContent.style.display = 'none'; // 접기
-                toggleButton.textContent = '참고한 페이지 보기';
+                toggleButton.textContent = '참고한 페이지';
             }
         });
 
@@ -207,7 +207,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // 스크롤을 최신 메시지로 이동
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
-
 
     // CSRF 토큰 가져오기 함수
     function getCookie(name) {
@@ -223,5 +222,14 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
         return cookieValue;
+    }
+
+    const uploadName = document.querySelector('.upload-name'); // 파일 이름 표시 필드
+
+    if (fileInput && uploadName) {
+        fileInput.addEventListener('change', function () {
+            const fileName = this.value.split("\\").pop(); // 파일 경로에서 파일명만 추출
+            uploadName.value = fileName || "선택된 파일 없음"; // 선택된 파일 이름 표시
+        });
     }
 });

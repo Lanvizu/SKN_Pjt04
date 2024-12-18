@@ -130,7 +130,7 @@ body {
 }
 
 .search-input:focus {
-  border-color: #0d6efd;
+  border-color: #4a90e2;
   box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
 }
 
@@ -162,7 +162,7 @@ body {
 
 .search-modal-button {
   position: absolute;
-  right: 27px;
+  right: 25px;
   top: 92%;
   transform: translateY(-50%);
   background-color: #ccc; /* 기본 상태 색상 */
@@ -212,7 +212,6 @@ body {
 }
 
 .chat-modal-content {
-  /* 채팅 모달 특정 스타일 */
   position: relative;
   background-color: #fff;
   margin: 5% auto;
@@ -224,6 +223,7 @@ body {
   max-height: 95vh;
   display: flex;
   flex-direction: column;
+  scrollbar-gutter: stable;
 }
 
 /* Close Button Style */
@@ -276,7 +276,7 @@ body {
 
 #loginModal button:hover,
 #signupModal button:hover {
-    background-color: #357abd; /* Darker blue on hover */
+    background-color: #4a90e2; /* Darker blue on hover */
 }
 
 /* Chat Modal Styles */
@@ -364,16 +364,15 @@ body {
 
 /* 토글 버튼 스타일 */
 .toggle-sources-btn {
-  background-color: #007bff;
+  background-color: #4a90e2;
   color: white;
   border: none;
-  padding: 10px;
   cursor: pointer;
   margin-bottom: 10px;
 }
 
 .toggle-sources-btn:hover {
-  background-color: #0056b3;
+  background-color: #4a90e2;
 }
 
 /* 숨겨진 출처 내용 스타일 */
@@ -383,6 +382,41 @@ body {
   border: 1px solid #ddd;
 }
 
+/* 파일 업로드 스타일 */
+.filebox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filebox .upload-name {
+  display: inline-block;
+  height: 40px;
+  padding: 0 10px;
+  vertical-align: middle;
+  border: 1px solid #dddddd;
+  width: 78%;
+  color: #999999;
+}
+
+.filebox label {
+  display: inline-block;
+  padding: 10px 5px;
+  color: #fff;
+  vertical-align: middle;
+  background-color: #999999;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.filebox input[type="file"] {
+  position: absolute;
+  width: 0;
+  height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+}
 
 
 
@@ -3908,6 +3942,7 @@ textarea.form-control-lg {
   color: var(--bs-nav-link-color);
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  cursor: pointer;
 }
 @media (prefers-reduced-motion: reduce) {
   .nav-link {
