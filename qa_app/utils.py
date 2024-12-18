@@ -8,6 +8,7 @@ from langchain.schema import Document
 from pinecone import Pinecone, ServerlessSpec
 from openai import OpenAI
 from secrets_manager import get_api_keys
+from slugify import slugify
 import chardet
 
 # OpenAI API 키 설정

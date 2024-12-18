@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from .forms import FileUploadForm
 from .utils import load_file, split_text, upload_data_if_not_exists, search_in_pinecone, generate_with_gpt, pinecine_index, embedding_model, process_search_results
 from django.views.decorators.csrf import csrf_exempt
+from slugify import slugify
 import json
 
 def home(request):
@@ -13,20 +14,22 @@ def upload(request):
         form = FileUploadForm(request.POST, request.FILES)
         if form.is_valid():
             uploaded_file = request.FILES['file']
+
+            # 파일 이름을 ASCII 형식으로 변환
+            original_file_name = uploaded_file.name.split('.')[0]
+            sanitized_file_name = slugify(original_file_name) # slugify 사용
+            
             file_content = load_file(uploaded_file)
             split_texts = split_text(file_content)
-            file_name = uploaded_file.name.split('.')[0]
-            upload_data_if_not_exists(split_texts, pinecine_index, file_name)
+            
+            # 변환된 파일 이름을 사용하여 Pinecone에 업로드
+            upload_data_if_not_exists(split_texts, pinecine_index, sanitized_file_name)
             return JsonResponse({'message': '파일이 성공적으로 처리되었습니다.'})
         else:
             return JsonResponse({'message': '파일 업로드에 실패했습니다.'}, status=400)
     else:
         form = FileUploadForm()
     return render(request, '', {'form': form})
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
 
 @csrf_exempt
 def chat(request):
