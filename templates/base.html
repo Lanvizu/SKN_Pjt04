@@ -2,12 +2,6 @@
 {% load static %}
 <html lang="ko">
 <head>
-    <!-- <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>검색 페이지</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
@@ -55,6 +49,7 @@
         </div>
     </header>
 
+    <!-- 문서 업로드 모달 -->
     <div id="uploadModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
@@ -76,7 +71,7 @@
 
     <!-- 로그인 모달 -->
     <div class="modal" id="loginModal">
-        <div class="modal-content">
+        <div class="login-modal-content">
             <span class="close">&times;</span>
             <h2>로그인</h2>
             <form id="loginForm">

@@ -165,7 +165,7 @@ body {
   right: 25px;
   top: 92%;
   transform: translateY(-50%);
-  background-color: #ccc; /* 기본 상태 색상 */
+  background-color: #ccc;
   color: white;
   border: none;
   border-radius: 50%; /* 원형 버튼 */
@@ -201,6 +201,17 @@ body {
 
 /* Modal Content Box */
 .modal-content {
+  position: relative;
+  margin: 10% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.login-modal-content {
   position: relative;
   margin: 10% auto;
   padding: 20px;
@@ -268,10 +279,11 @@ body {
 #signupModal button {
     width: calc(100% - 20px);
     padding: 10px;
-    background-color: #4a90e2; /* Blue button color */
+    background-color: #ccc;
     color: white;
     border-radius: 5px;
     border: none;
+    margin-bottom: 10px;
 }
 
 #loginModal button:hover,
