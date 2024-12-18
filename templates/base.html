@@ -27,6 +27,18 @@
         </div>
     </div>
 
+
+    <!-- 파일 업로드 섹션 추가 -->
+    <div class="upload-container">
+        <h2>문서 업로드</h2>
+        <form id="uploadForm" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="file" id="fileInput" required>
+        </form>
+        <div id="uploadMessage"></div>
+    </div>
+
+
     <!-- 로그인 모달 -->
     <div class="modal" id="loginModal">
         <div class="modal-content">
@@ -58,7 +70,7 @@
     </div>
 
     <!-- Q&A 채팅 모달 -->
-    <div class="modal" id="chatModal">
+    <div class="chatmodal" id="chatModal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2>Q&A 채팅</h2>
